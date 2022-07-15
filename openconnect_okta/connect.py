@@ -10,7 +10,6 @@ import lxml.etree
 import requests
 
 
-
 class OktaGPConnect:
     def __init__(self, gateway: str, username: str, password: str):
         self._gateway = gateway
@@ -119,7 +118,7 @@ class OktaGPConnect:
         return form.attrib["action"], {inp.attrib["name"]: inp.attrib["value"] for inp in form.findall("input")}
 
 
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser(prefix_chars="--")
     parser.add_argument('--gateway', help='VPN gateway', required=True)
     parser.add_argument('--username', help='VPN username', required=True)
@@ -133,3 +132,7 @@ if __name__ == "__main__":
     hip_report_path = os.path.join(os.path.dirname(__file__), "hipreport.sh")
     cmd = f"""echo "{cookie}" | openconnect --passwd-on-stdin --protocol=gp --no-dtls --user="{user}" --usergroup=gateway:prelogin-cookie --csd-wrapper="{hip_report_path}" {args.gateway}"""
     os.system(cmd)
+
+
+if __name__ == "__main__":
+    main()
